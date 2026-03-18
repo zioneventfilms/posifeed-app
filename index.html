@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0050)file:///C:/Users/brigs/Downloads/posifeed-app.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PosiFeed — Unified Social Feed</title>
-<link href="./index_files/css2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -707,6 +707,35 @@
   }
   .preset-toggle-btn:hover { background: var(--surface2); color: var(--text); }
   .preset-toggle-btn.active { background: rgba(232,101,10,0.1); border-color: var(--accent); color: var(--accent); }
+
+  .connect-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 0;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .connect-row:hover { opacity: 0.8; }
+  .connect-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .connect-name { font-size: 13px; color: var(--text2); flex: 1; }
+  .connect-status {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    background: rgba(232,101,10,0.1);
+    padding: 3px 8px;
+    border-radius: 20px;
+  }
+  .connect-status.connected {
+    color: var(--green);
+    background: rgba(22,163,74,0.1);
+  }
+  .connect-status.disconnecting {
+    color: var(--red);
+    background: rgba(220,38,38,0.1);
+  }
 </style>
 </head>
 <body>
@@ -719,46 +748,46 @@
   </div>
 
   <div class="section-label">Views</div>
-  <div class="nav-item active" onclick="setView(this,&#39;all&#39;)">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>
+  <div class="nav-item active" onclick="setView(this,'all')">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
     All posts
     <span class="badge">47</span>
   </div>
-  <div class="nav-item" onclick="setView(this,&#39;friends&#39;)">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"></path></svg>
+  <div class="nav-item" onclick="setView(this,'friends')">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
     Close friends
   </div>
-  <div class="nav-item" onclick="setView(this,&#39;saved&#39;)">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg>
+  <div class="nav-item" onclick="setView(this,'saved')">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
     Saved
   </div>
-  <div class="nav-item" onclick="setView(this,&#39;blocked&#39;)">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+  <div class="nav-item" onclick="setView(this,'blocked')">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
     Filtered out
     <span class="badge" style="background:var(--red)">12</span>
   </div>
 
   <div class="section-label">Platforms</div>
   <div class="platform-section">
-    <div class="platform-pill active" onclick="togglePlatform(this,&#39;tw&#39;)">
+    <div class="platform-pill active" onclick="togglePlatform(this,'tw')">
       <span class="platform-dot" style="background:var(--tw)"></span>
       Twitter / X
       <span class="count">18</span>
       <div class="toggle"></div>
     </div>
-    <div class="platform-pill active" onclick="togglePlatform(this,&#39;ig&#39;)">
+    <div class="platform-pill active" onclick="togglePlatform(this,'ig')">
       <span class="platform-dot" style="background:var(--ig)"></span>
       Instagram
       <span class="count">14</span>
       <div class="toggle"></div>
     </div>
-    <div class="platform-pill active" onclick="togglePlatform(this,&#39;fb&#39;)">
+    <div class="platform-pill active" onclick="togglePlatform(this,'fb')">
       <span class="platform-dot" style="background:var(--fb)"></span>
       Facebook
       <span class="count">9</span>
       <div class="toggle"></div>
     </div>
-    <div class="platform-pill active" onclick="togglePlatform(this,&#39;rd&#39;)">
+    <div class="platform-pill active" onclick="togglePlatform(this,'rd')">
       <span class="platform-dot" style="background:var(--rd)"></span>
       Reddit
       <span class="count">6</span>
@@ -771,17 +800,35 @@
     <span class="filter-chip blocked active"># politics</span>
     <span class="filter-chip blocked active"># ads</span>
     <span class="filter-chip blocked active"># drama</span>
-    <span class="filter-chip blocked" onclick="this.classList.toggle(&#39;active&#39;)"># crypto</span>
-    <span class="filter-chip" onclick="this.classList.toggle(&#39;active blocked&#39;)">+ Add keyword</span>
+    <span class="filter-chip blocked" onclick="this.classList.toggle('active')"># crypto</span>
+    <span class="filter-chip" onclick="this.classList.toggle('active blocked')">+ Add keyword</span>
   </div>
 
   <div class="sidebar-bottom">
-    <div class="user-row">
-      <div class="avatar">JD</div>
-      <div>
-        <div class="user-name">Jamie Doe</div>
-        <div class="user-accounts">4 accounts connected</div>
-      </div>
+    <div class="section-label" style="padding: 0 0 10px;">Connected accounts</div>
+
+    <div class="connect-row" id="connect-twitter" onclick="connectPlatform('twitter')">
+      <div class="connect-dot" style="background:var(--tw)"></div>
+      <span class="connect-name">Twitter / X</span>
+      <span class="connect-status" id="status-twitter">Connect</span>
+    </div>
+
+    <div class="connect-row" id="connect-reddit" onclick="connectPlatform('reddit')">
+      <div class="connect-dot" style="background:var(--rd)"></div>
+      <span class="connect-name">Reddit</span>
+      <span class="connect-status" id="status-reddit">Connect</span>
+    </div>
+
+    <div class="connect-row" id="connect-facebook" onclick="connectPlatform('facebook')">
+      <div class="connect-dot" style="background:var(--fb)"></div>
+      <span class="connect-name">Facebook</span>
+      <span class="connect-status" id="status-facebook">Connect</span>
+    </div>
+
+    <div class="connect-row" style="opacity:0.4;cursor:not-allowed;">
+      <div class="connect-dot" style="background:var(--ig)"></div>
+      <span class="connect-name">Instagram</span>
+      <span class="connect-status">Soon</span>
     </div>
   </div>
 </aside>
@@ -793,11 +840,11 @@
     <div class="ai-badge"><div class="ai-dot"></div> AI filtering on</div>
     <div class="topbar-right">
       <div class="sort-btn">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="15" y2="12"></line><line x1="3" y1="18" x2="9" y2="18"></line></svg>
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
         Smart sort
       </div>
       <div class="sort-btn">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         Search
       </div>
     </div>
@@ -810,221 +857,41 @@
         <!-- Stats -->
         <div class="feed-stats">
           <div class="stat-card">
-            <div class="stat-num" id="statShown" style="color:var(--accent)">8</div>
+            <div class="stat-num" id="statShown" style="color:var(--accent)">—</div>
             <div class="stat-label">posts shown</div>
           </div>
           <div class="stat-card">
-            <div class="stat-num" id="statFiltered" style="color:var(--red)">2</div>
+            <div class="stat-num" id="statFiltered" style="color:var(--red)">—</div>
             <div class="stat-label">filtered out</div>
           </div>
           <div class="stat-card">
-            <div class="stat-num" id="statScore" style="color:var(--green)">80%</div>
+            <div class="stat-num" id="statScore" style="color:var(--green)">—</div>
             <div class="stat-label">relevance score</div>
           </div>
         </div>
 
         <!-- Filter bar -->
         <div class="filter-bar">
-          <input class="search-input" placeholder="Search posts, people, topics...">
+          <input class="search-input" placeholder="Search posts, people, topics..." />
           <div class="type-filter">
             <button class="type-btn active">All</button>
             <button class="type-btn" onclick="setType(this)">
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
               Images
             </button>
             <button class="type-btn" onclick="setType(this)">
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2"></rect></svg>
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
               Videos
             </button>
             <button class="type-btn" onclick="setType(this)">
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg>
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
               Text
             </button>
           </div>
         </div>
 
         <!-- Dynamic posts rendered by JS -->
-        <div id="feedPosts">
-        <div class="post friend-priority" style="animation-delay:0s" data-id="p1">
-          <div style="display:flex;gap:6px;margin-bottom:10px;"><span class="ai-label friend">★ Close friend</span><span class="ai-label topic">✓ Nature · Lifestyle</span></div>
-          <div class="post-header">
-            <div class="post-avatar" style="background:rgba(225,48,108,0.15);color:var(--ig)">SR</div>
-            <div class="post-meta">
-              <div class="post-author">Sarah R.</div>
-              <div class="post-handle">@sarahreads</div>
-            </div>
-            <div class="platform-badge" style="background:var(--ig)22;color:var(--ig)">
-              <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><rect x="2" y="2" width="20" height="20" rx="5"></rect></svg> Instagram
-            </div>
-          </div>
-          <div class="post-body">Just finished the most incredible hike through the valley — couldn't believe how clear the air was this morning 🌿 <span class="hashtag">#nature</span> <span class="hashtag">#weekend</span></div>
-          <div class="post-image"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg> Photo</div>
-          <div class="post-footer">
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg> 445</div>
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg> 50</div>
-            <div class="post-time" style="margin-left:auto;font-size:11px;color:var(--text3)">1h ago</div>
-          </div>
-        </div>
-        <div class="post friend-priority" style="animation-delay:0.04s" data-id="p5">
-          <div style="display:flex;gap:6px;margin-bottom:10px;"><span class="ai-label friend">★ Close friend</span><span class="ai-label topic">✓ Family · Lifestyle</span></div>
-          <div class="post-header">
-            <div class="post-avatar" style="background:rgba(24,119,242,0.15);color:var(--fb)">AL</div>
-            <div class="post-meta">
-              <div class="post-author">Alex Lin</div>
-              <div class="post-handle">Facebook · Close friend</div>
-            </div>
-            <div class="platform-badge" style="background:var(--fb)22;color:var(--fb)">
-              <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path></svg> Facebook
-            </div>
-          </div>
-          <div class="post-body">Birthday dinner with the family last night — mom made her famous lasagna. Grateful for these moments 🥂</div>
-          <div class="post-image"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg> Photo</div>
-          <div class="post-footer">
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg> 932</div>
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg> 39</div>
-            <div class="post-time" style="margin-left:auto;font-size:11px;color:var(--text3)">2h ago</div>
-          </div>
-        </div>
-        <div class="post friend-priority" style="animation-delay:0.08s" data-id="p9">
-          <div style="display:flex;gap:6px;margin-bottom:10px;"><span class="ai-label friend">★ Close friend</span><span class="ai-label topic">✓ Art · Design</span></div>
-          <div class="post-header">
-            <div class="post-avatar" style="background:rgba(225,48,108,0.15);color:var(--ig)">JC</div>
-            <div class="post-meta">
-              <div class="post-author">Jamie Chen</div>
-              <div class="post-handle">@jamiedraws</div>
-            </div>
-            <div class="platform-badge" style="background:var(--ig)22;color:var(--ig)">
-              <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><rect x="2" y="2" width="20" height="20" rx="5"></rect></svg> Instagram
-            </div>
-          </div>
-          <div class="post-body">Finally finished this piece after 3 weeks. It's a portrait of my grandmother. Watercolor on 300gsm cold press. 🎨</div>
-          <div class="post-image"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg> Photo</div>
-          <div class="post-footer">
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg> 314</div>
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg> 81</div>
-            <div class="post-time" style="margin-left:auto;font-size:11px;color:var(--text3)">4h ago</div>
-          </div>
-        </div>
-        <div class="post " style="animation-delay:0.12s" data-id="p2">
-          <div style="display:flex;gap:6px;margin-bottom:10px;"><span class="ai-label topic">✓ Technology · Design</span></div>
-          <div class="post-header">
-            <div class="post-avatar" style="background:rgba(29,155,240,0.15);color:var(--tw)">MK</div>
-            <div class="post-meta">
-              <div class="post-author">Marc Kowalski</div>
-              <div class="post-handle">@marcbuilds</div>
-            </div>
-            <div class="platform-badge" style="background:var(--tw)22;color:var(--tw)">
-              <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg> Twitter
-            </div>
-          </div>
-          <div class="post-body">Hot take: the best UI is the one you forget you're using. Spent 3 hours on a component today and the win was making it 40% simpler. <span class="hashtag">#design</span> <span class="hashtag">#ux</span></div>
-          
-          <div class="post-footer">
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg> 1392</div>
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg> 7</div>
-            <div class="post-time" style="margin-left:auto;font-size:11px;color:var(--text3)">6h ago</div>
-          </div>
-        </div>
-        <div class="post " style="animation-delay:0.16s" data-id="p3">
-          <div style="display:flex;gap:6px;margin-bottom:10px;"><span class="ai-label topic">✓ Technology · Programming</span></div>
-          <div class="post-header">
-            <div class="post-avatar" style="background:rgba(255,69,0,0.12);color:var(--rd)">T</div>
-            <div class="post-meta">
-              <div class="post-author">techfolio</div>
-              <div class="post-handle">r/programming</div>
-            </div>
-            <div class="platform-badge" style="background:var(--rd)22;color:var(--rd)">
-              <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><circle cx="12" cy="12" r="10"></circle></svg> Reddit
-            </div>
-          </div>
-          <div class="post-body">Built an open source tool for visualizing API response times across microservices. It's been running in prod for 6 months and the insights have been invaluable.</div>
-          
-          <div class="post-footer">
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg> 1838</div>
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg> 3</div>
-            <div class="post-time" style="margin-left:auto;font-size:11px;color:var(--text3)">8h ago</div>
-          </div>
-        </div>
-          <div class="blocked-post" onclick="revealPost(&#39;p4&#39;, this)">
-            <div class="blocked-icon">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
-            </div>
-            <div class="blocked-info">
-              <div class="blocked-label">Post hidden by AI filter</div>
-              <div class="blocked-reason">Matched blocked keyword: "politics" · Twitter · @newsaccount</div>
-            </div>
-            <span class="show-anyway">Show</span>
-          </div>
-          <div class="blocked-post" onclick="revealPost(&#39;p6&#39;, this)">
-            <div class="blocked-icon">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
-            </div>
-            <div class="blocked-info">
-              <div class="blocked-label">Post hidden by AI filter</div>
-              <div class="blocked-reason">AI detected toxic content · Reddit · r/rant</div>
-            </div>
-            <span class="show-anyway">Show</span>
-          </div>
-        <div class="post " style="animation-delay:0.28s" data-id="p7">
-          <div style="display:flex;gap:6px;margin-bottom:10px;"><span class="ai-label topic">✓ Science · Biology</span></div>
-          <div class="post-header">
-            <div class="post-avatar" style="background:rgba(29,155,240,0.15);color:var(--tw)">DN</div>
-            <div class="post-meta">
-              <div class="post-author">Dr. Nina Burrows</div>
-              <div class="post-handle">@ninascience</div>
-            </div>
-            <div class="platform-badge" style="background:var(--tw)22;color:var(--tw)">
-              <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg> Twitter
-            </div>
-          </div>
-          <div class="post-body">New paper just dropped — we mapped the entire protein folding pathway for a rare enzyme. This could open doors for targeted therapeutics. Really proud of the team. <span class="hashtag">#science</span> <span class="hashtag">#biology</span></div>
-          
-          <div class="post-footer">
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg> 1316</div>
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg> 101</div>
-            <div class="post-time" style="margin-left:auto;font-size:11px;color:var(--text3)">2h ago</div>
-          </div>
-        </div>
-        <div class="post " style="animation-delay:0.32s" data-id="p8">
-          <div style="display:flex;gap:6px;margin-bottom:10px;"><span class="ai-label topic">✓ Crypto · Finance</span></div>
-          <div class="post-header">
-            <div class="post-avatar" style="background:rgba(29,155,240,0.15);color:var(--tw)">C</div>
-            <div class="post-meta">
-              <div class="post-author">CryptoGuru99</div>
-              <div class="post-handle">@cryptoguru99</div>
-            </div>
-            <div class="platform-badge" style="background:var(--tw)22;color:var(--tw)">
-              <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg> Twitter
-            </div>
-          </div>
-          <div class="post-body">🚀 BIG announcement! Our new token launches tomorrow. Early investors get 10x gains guaranteed. Don't miss out! <span class="hashtag">#crypto</span> <span class="hashtag">#moon</span></div>
-          
-          <div class="post-footer">
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg> 1186</div>
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg> 10</div>
-            <div class="post-time" style="margin-left:auto;font-size:11px;color:var(--text3)">4h ago</div>
-          </div>
-        </div>
-        <div class="post " style="animation-delay:0.36s" data-id="p10">
-          <div style="display:flex;gap:6px;margin-bottom:10px;"><span class="ai-label topic">✓ Technology · Humor</span></div>
-          <div class="post-header">
-            <div class="post-avatar" style="background:rgba(255,69,0,0.12);color:var(--rd)">U</div>
-            <div class="post-meta">
-              <div class="post-author">u/devhumor</div>
-              <div class="post-handle">r/ProgrammerHumor</div>
-            </div>
-            <div class="platform-badge" style="background:var(--rd)22;color:var(--rd)">
-              <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><circle cx="12" cy="12" r="10"></circle></svg> Reddit
-            </div>
-          </div>
-          <div class="post-body">Me: I'll just fix this one small bug. Also me at 3am: I have rewritten the entire backend in Rust and I have no regrets.</div>
-          
-          <div class="post-footer">
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg> 1692</div>
-            <div class="post-action"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg> 54</div>
-            <div class="post-time" style="margin-left:auto;font-size:11px;color:var(--text3)">6h ago</div>
-          </div>
-        </div></div>
+        <div id="feedPosts"></div>
 
       </div>
     </div>
@@ -1067,23 +934,23 @@
         <div class="panel-title">AI filter settings</div>
         <div class="toggle-row">
           Block toxic content
-          <div class="toggle on" onclick="this.classList.toggle(&#39;on&#39;)"></div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
         </div>
         <div class="toggle-row">
           Prioritize friends
-          <div class="toggle on" onclick="this.classList.toggle(&#39;on&#39;)"></div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
         </div>
         <div class="toggle-row">
           Smart topic filter
-          <div class="toggle on" onclick="this.classList.toggle(&#39;on&#39;)"></div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
         </div>
         <div class="toggle-row">
-          Block ads &amp; promos
-          <div class="toggle on" onclick="this.classList.toggle(&#39;on&#39;)"></div>
+          Block ads & promos
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
         </div>
         <div class="toggle-row">
           Image-only mode
-          <div class="toggle" onclick="this.classList.toggle(&#39;on&#39;)"></div>
+          <div class="toggle" onclick="this.classList.toggle('on')"></div>
         </div>
       </div>
 
@@ -1120,7 +987,7 @@
 <!-- Presets Panel -->
 <div class="presets-panel" id="presetsPanel">
   <div class="presets-header">
-    <span style="font-family:&#39;Syne&#39;,sans-serif;font-size:14px;font-weight:600;">Filter Presets</span>
+    <span style="font-family:'Syne',sans-serif;font-size:14px;font-weight:600;">Filter Presets</span>
     <div style="display:flex;gap:8px;align-items:center;">
       <span style="font-size:11px;color:var(--text3)">tap to apply · tap again to remove</span>
       <div class="preset-close" onclick="togglePresets()">✕</div>
@@ -1133,17 +1000,17 @@
       <div class="preset-card" data-id="good-vibes" onclick="applyPreset(this)">
         <div class="preset-icon" style="background:rgba(74,222,128,0.12);color:var(--green)">☀</div>
         <div class="preset-name">Good vibes only</div>
-        <div class="preset-desc">Block toxic &amp; negative posts</div>
+        <div class="preset-desc">Block toxic & negative posts</div>
       </div>
       <div class="preset-card" data-id="focus-mode" onclick="applyPreset(this)">
         <div class="preset-icon" style="background:rgba(108,143,247,0.12);color:var(--accent)">⊙</div>
         <div class="preset-name">Focus mode</div>
-        <div class="preset-desc">Tech &amp; science only</div>
+        <div class="preset-desc">Tech & science only</div>
       </div>
       <div class="preset-card" data-id="chill" onclick="applyPreset(this)">
         <div class="preset-icon" style="background:rgba(232,121,249,0.12);color:var(--pink)">◈</div>
         <div class="preset-name">Chill scroll</div>
-        <div class="preset-desc">Art, nature &amp; lifestyle</div>
+        <div class="preset-desc">Art, nature & lifestyle</div>
       </div>
     </div>
 
@@ -1166,12 +1033,12 @@
       <div class="preset-card" data-id="images-only" onclick="applyPreset(this)">
         <div class="preset-icon" style="background:rgba(225,48,108,0.12);color:var(--ig)">▣</div>
         <div class="preset-name">Images only</div>
-        <div class="preset-desc">Photos &amp; visual posts</div>
+        <div class="preset-desc">Photos & visual posts</div>
       </div>
       <div class="preset-card" data-id="text-only" onclick="applyPreset(this)">
         <div class="preset-icon" style="background:rgba(255,69,0,0.12);color:var(--rd)">≡</div>
         <div class="preset-name">Text only</div>
-        <div class="preset-desc">Articles &amp; threads</div>
+        <div class="preset-desc">Articles & threads</div>
       </div>
     </div>
 
@@ -1185,7 +1052,7 @@
       <div class="preset-card" data-id="no-crypto" onclick="applyPreset(this)">
         <div class="preset-icon" style="background:rgba(251,191,36,0.12);color:var(--amber)">⊘</div>
         <div class="preset-name">No crypto</div>
-        <div class="preset-desc">Filter crypto &amp; finance promo</div>
+        <div class="preset-desc">Filter crypto & finance promo</div>
       </div>
       <div class="preset-card" data-id="no-ads" onclick="applyPreset(this)">
         <div class="preset-icon" style="background:rgba(248,113,113,0.12);color:var(--red)">⊘</div>
@@ -1219,17 +1086,83 @@
 <!-- AI Bar -->
 <div class="ai-bar">
   <span class="ai-spark">✦</span>
-  <input type="text" placeholder="Ask AI to filter: &#39;show only tech posts&#39; or &#39;hide videos&#39;..." id="aiInput" onkeydown="if(event.key===&#39;Enter&#39;)sendAI()">
+  <input type="text" placeholder="Ask AI to filter: 'show only tech posts' or 'hide videos'..." id="aiInput" onkeydown="if(event.key==='Enter')sendAI()"/>
   <div class="preset-toggle-btn" onclick="togglePresets()" id="presetToggleBtn" title="Filter presets">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
     Presets
   </div>
   <div class="ai-send" onclick="sendAI()">
-    <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
   </div>
 </div>
 
 <script>
+
+  // ─── Backend config ────────────────────────────────────────────────
+  const BACKEND_URL = 'https://posifeed-app-production.up.railway.app';
+
+  // ─── Check connection status on load ──────────────────────────────
+  async function checkConnectionStatus() {
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/status`, { credentials: 'include' });
+      const status = await res.json();
+      updateConnectionUI(status);
+    } catch (err) {
+      console.log('Backend not reachable:', err.message);
+    }
+  }
+
+  function updateConnectionUI(status) {
+    const platforms = ['twitter', 'reddit', 'facebook'];
+    let connectedCount = 0;
+    platforms.forEach(p => {
+      const el = document.getElementById(`status-${p}`);
+      const row = document.getElementById(`connect-${p}`);
+      if (el) {
+        if (status[p]) {
+          connectedCount++;
+          el.textContent = 'Connected';
+          el.className = 'connect-status connected';
+          if (row) row.onclick = () => disconnectPlatform(p);
+        } else {
+          el.textContent = 'Connect';
+          el.className = 'connect-status';
+          if (row) row.onclick = () => connectPlatform(p);
+        }
+      }
+    });
+  }
+
+  function connectPlatform(platform) {
+    window.location.href = `${BACKEND_URL}/auth/${platform}`;
+  }
+
+  async function disconnectPlatform(platform) {
+    const el = document.getElementById(`status-${platform}`);
+    if (el) { el.textContent = 'Disconnecting...'; el.className = 'connect-status disconnecting'; }
+    try {
+      await fetch(`${BACKEND_URL}/api/logout/${platform}`, { method: 'POST', credentials: 'include' });
+      checkConnectionStatus();
+      showToast(`${platform} disconnected`, 'warn');
+    } catch (err) {
+      showToast('Could not disconnect, try again', 'error');
+    }
+  }
+
+  // Check URL for connection success/error params
+  function checkURLParams() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('connected')) {
+      showToast(`${params.get('connected')} connected successfully!`, 'success');
+      window.history.replaceState({}, '', window.location.pathname);
+      checkConnectionStatus();
+    }
+    if (params.get('error')) {
+      showToast(`Failed to connect ${params.get('error')} — try again`, 'error');
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }
+
   // ─── Post data store ───────────────────────────────────────────────
   const POSTS = [
     {
@@ -1570,6 +1503,8 @@ Respond ONLY with a valid JSON object, no markdown, no explanation. Use this sch
         break;
     }
     renderFeed();
+  checkConnectionStatus();
+  checkURLParams();
     syncRightPanel();
   }
 
@@ -1753,6 +1688,5 @@ Respond ONLY with a valid JSON object, no markdown, no explanation. Use this sch
   renderFeed();
 </script>
 
-
-
-</body></html>
+</body>
+</html>
