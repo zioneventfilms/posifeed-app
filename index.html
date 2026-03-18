@@ -6,7 +6,7 @@
 <title>PosiFeed — Unified Social Feed</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
     --bg: #f5f5f0;
@@ -1102,11 +1102,26 @@
   const BACKEND_URL = 'https://posifeed-app-production.up.railway.app';
 
   // ─── Check connection status on load ──────────────────────────────
+  function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days*24*60*60*1000));
+    document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/;SameSite=Lax`;
+  }
+
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+
+  function deleteCookie(name) {
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+  }
+
   async function checkConnectionStatus() {
     const platforms = ['twitter', 'reddit', 'facebook'];
     const status = {};
     platforms.forEach(p => {
-      status[p] = !!localStorage.getItem(`posifeed_${p}_token`);
+      status[p] = !!getCookie(`posifeed_${p}_token`);
     });
     updateConnectionUI(status);
   }
@@ -1139,7 +1154,7 @@
   async function disconnectPlatform(platform) {
     const el = document.getElementById(`status-${platform}`);
     if (el) { el.textContent = 'Disconnecting...'; el.className = 'connect-status disconnecting'; }
-    localStorage.removeItem(`posifeed_${platform}_token`);
+    deleteCookie(`posifeed_${platform}_token`);
     checkConnectionStatus();
     showToast(`${platform} disconnected`, 'warn');
   }
@@ -1151,7 +1166,7 @@
       const platform = params.get('platform');
       const token = params.get('token');
       if (platform && token) {
-        localStorage.setItem(`posifeed_${platform}_token`, token);
+        setCookie(`posifeed_${platform}_token`, token, 7);
       }
       showToast(`${params.get('connected')} connected successfully!`, 'success');
       window.history.replaceState({}, '', window.location.pathname);
