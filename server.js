@@ -16,10 +16,9 @@ app.use(session({
   cookie: { secure: true, sameSite: 'none', maxAge: 7 * 24 * 60 * 60 * 1000 }
 }));
 
-// ─── Health check ──────────────────────────────────────────────────
 app.get('/', (req, res) => res.json({ status: 'PosiFeed backend running' }));
 
-// ─── TWITTER / X OAuth 2.0 ────────────────────────────────────────
+// ─── TWITTER ──────────────────────────────────────────────────────
 app.get('/auth/twitter', (req, res) => {
   const params = new URLSearchParams({
     response_type: 'code',
@@ -48,31 +47,15 @@ app.get('/auth/twitter/callback', async (req, res) => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
       }
     );
-    req.session.twitter_token = response.data.access_token;
-    res.redirect(`${process.env.FRONTEND_URL}?connected=twitter`);
+    const token = response.data.access_token;
+    res.redirect(`${process.env.FRONTEND_URL}?connected=twitter&token=${token}&platform=twitter`);
   } catch (err) {
     console.error('Twitter OAuth error:', err.response?.data || err.message);
     res.redirect(`${process.env.FRONTEND_URL}?error=twitter`);
   }
 });
 
-app.get('/api/twitter/feed', async (req, res) => {
-  if (!req.session.twitter_token) return res.status(401).json({ error: 'Not connected' });
-  try {
-    const user = await axios.get('https://api.twitter.com/2/users/me', {
-      headers: { Authorization: `Bearer ${req.session.twitter_token}` }
-    });
-    const tweets = await axios.get(`https://api.twitter.com/2/users/${user.data.data.id}/timelines/reverse_chronological`, {
-      headers: { Authorization: `Bearer ${req.session.twitter_token}` },
-      params: { max_results: 20, 'tweet.fields': 'created_at,public_metrics,attachments', expansions: 'author_id' }
-    });
-    res.json(tweets.data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// ─── REDDIT OAuth 2.0 ─────────────────────────────────────────────
+// ─── REDDIT ───────────────────────────────────────────────────────
 app.get('/auth/reddit', (req, res) => {
   const params = new URLSearchParams({
     client_id: process.env.REDDIT_CLIENT_ID,
@@ -95,28 +78,15 @@ app.get('/auth/reddit/callback', async (req, res) => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'User-Agent': 'PosiFeed/1.0' }
       }
     );
-    req.session.reddit_token = response.data.access_token;
-    res.redirect(`${process.env.FRONTEND_URL}?connected=reddit`);
+    const token = response.data.access_token;
+    res.redirect(`${process.env.FRONTEND_URL}?connected=reddit&token=${token}&platform=reddit`);
   } catch (err) {
     console.error('Reddit OAuth error:', err.response?.data || err.message);
     res.redirect(`${process.env.FRONTEND_URL}?error=reddit`);
   }
 });
 
-app.get('/api/reddit/feed', async (req, res) => {
-  if (!req.session.reddit_token) return res.status(401).json({ error: 'Not connected' });
-  try {
-    const feed = await axios.get('https://oauth.reddit.com/best', {
-      headers: { Authorization: `Bearer ${req.session.reddit_token}`, 'User-Agent': 'PosiFeed/1.0' },
-      params: { limit: 25 }
-    });
-    res.json(feed.data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// ─── FACEBOOK OAuth 2.0 ───────────────────────────────────────────
+// ─── FACEBOOK ─────────────────────────────────────────────────────
 app.get('/auth/facebook', (req, res) => {
   const params = new URLSearchParams({
     client_id: process.env.FACEBOOK_APP_ID,
@@ -138,27 +108,15 @@ app.get('/auth/facebook/callback', async (req, res) => {
         code
       }
     });
-    req.session.facebook_token = tokenRes.data.access_token;
-    res.redirect(`${process.env.FRONTEND_URL}?connected=facebook`);
+    const token = tokenRes.data.access_token;
+    res.redirect(`${process.env.FRONTEND_URL}?connected=facebook&token=${token}&platform=facebook`);
   } catch (err) {
     console.error('Facebook OAuth error:', err.response?.data || err.message);
     res.redirect(`${process.env.FRONTEND_URL}?error=facebook`);
   }
 });
 
-app.get('/api/facebook/feed', async (req, res) => {
-  if (!req.session.facebook_token) return res.status(401).json({ error: 'Not connected' });
-  try {
-    const feed = await axios.get('https://graph.facebook.com/v18.0/me/feed', {
-      params: { access_token: req.session.facebook_token, fields: 'id,message,created_time,full_picture,likes.summary(true),comments.summary(true)', limit: 20 }
-    });
-    res.json(feed.data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// ─── INSTAGRAM OAuth (via Facebook) ───────────────────────────────
+// ─── INSTAGRAM ────────────────────────────────────────────────────
 app.get('/auth/instagram', (req, res) => {
   const params = new URLSearchParams({
     client_id: process.env.INSTAGRAM_APP_ID,
@@ -182,27 +140,15 @@ app.get('/auth/instagram/callback', async (req, res) => {
       }),
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
     );
-    req.session.instagram_token = tokenRes.data.access_token;
-    res.redirect(`${process.env.FRONTEND_URL}?connected=instagram`);
+    const token = tokenRes.data.access_token;
+    res.redirect(`${process.env.FRONTEND_URL}?connected=instagram&token=${token}&platform=instagram`);
   } catch (err) {
     console.error('Instagram OAuth error:', err.response?.data || err.message);
     res.redirect(`${process.env.FRONTEND_URL}?error=instagram`);
   }
 });
 
-app.get('/api/instagram/feed', async (req, res) => {
-  if (!req.session.instagram_token) return res.status(401).json({ error: 'Not connected' });
-  try {
-    const feed = await axios.get('https://graph.instagram.com/me/media', {
-      params: { fields: 'id,caption,media_type,media_url,thumbnail_url,timestamp,like_count,comments_count', access_token: req.session.instagram_token, limit: 20 }
-    });
-    res.json(feed.data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// ─── Session status ────────────────────────────────────────────────
+// ─── Status ────────────────────────────────────────────────────────
 app.get('/api/status', (req, res) => {
   res.json({
     twitter: !!req.session.twitter_token,
@@ -212,7 +158,6 @@ app.get('/api/status', (req, res) => {
   });
 });
 
-// ─── Logout ────────────────────────────────────────────────────────
 app.post('/api/logout/:platform', (req, res) => {
   const { platform } = req.params;
   delete req.session[`${platform}_token`];
