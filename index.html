@@ -1103,13 +1103,12 @@
 
   // ─── Check connection status on load ──────────────────────────────
   async function checkConnectionStatus() {
-    try {
-      const res = await fetch(`${BACKEND_URL}/api/status`, { credentials: 'include' });
-      const status = await res.json();
-      updateConnectionUI(status);
-    } catch (err) {
-      console.log('Backend not reachable:', err.message);
-    }
+    const platforms = ['twitter', 'reddit', 'facebook'];
+    const status = {};
+    platforms.forEach(p => {
+      status[p] = !!localStorage.getItem(`posifeed_${p}_token`);
+    });
+    updateConnectionUI(status);
   }
 
   function updateConnectionUI(status) {
@@ -1140,19 +1139,20 @@
   async function disconnectPlatform(platform) {
     const el = document.getElementById(`status-${platform}`);
     if (el) { el.textContent = 'Disconnecting...'; el.className = 'connect-status disconnecting'; }
-    try {
-      await fetch(`${BACKEND_URL}/api/logout/${platform}`, { method: 'POST', credentials: 'include' });
-      checkConnectionStatus();
-      showToast(`${platform} disconnected`, 'warn');
-    } catch (err) {
-      showToast('Could not disconnect, try again', 'error');
-    }
+    localStorage.removeItem(`posifeed_${platform}_token`);
+    checkConnectionStatus();
+    showToast(`${platform} disconnected`, 'warn');
   }
 
   // Check URL for connection success/error params
   function checkURLParams() {
     const params = new URLSearchParams(window.location.search);
     if (params.get('connected')) {
+      const platform = params.get('platform');
+      const token = params.get('token');
+      if (platform && token) {
+        localStorage.setItem(`posifeed_${platform}_token`, token);
+      }
       showToast(`${params.get('connected')} connected successfully!`, 'success');
       window.history.replaceState({}, '', window.location.pathname);
       checkConnectionStatus();
